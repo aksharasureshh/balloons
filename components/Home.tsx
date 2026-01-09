@@ -78,7 +78,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             <div className="relative w-full max-w-[500px] aspect-[4/5]">
               <div className="absolute inset-0 bg-stone-50 rounded-[2.5rem] translate-x-4 translate-y-4 -z-10"></div>
               <img 
-                src="/hero.png" 
+                src="/hero.JPG" 
                 alt="Luxury Black, White and Tan Balloon Installation with Happy Birthday Neon Sign" 
                 className="w-full h-full object-cover rounded-[2.5rem] shadow-xl border border-stone-100 relative z-10"
                 onError={(e) => {
