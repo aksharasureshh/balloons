@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import Gallery from './components/Gallery';
 import ArchBuilder from './components/ArchBuilder';
+import FAQ from './components/FAQ';
 
 const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<Section>('home');
@@ -18,6 +19,8 @@ const App: React.FC = () => {
         return <Gallery />;
       case 'builder':
         return <ArchBuilder />;
+      case 'faq':
+        return <FAQ />;
       default:
         return <Home onNavigate={setActiveSection} />;
     }
@@ -29,7 +32,7 @@ const App: React.FC = () => {
       <main className="flex-grow">
         {renderContent()}
       </main>
-      <Footer />
+      <Footer onNavigate={setActiveSection} />
     </div>
   );
 };

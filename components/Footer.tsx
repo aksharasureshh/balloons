@@ -1,21 +1,37 @@
 
 import React from 'react';
+import { Section } from '../types';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigate?: (section: Section) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const logoUrl = "https://github.com/aksharasureshh/balloons/blob/main/logo.png?raw=true";
+
+  const handleNav = (section: Section) => {
+    if (onNavigate) {
+      onNavigate(section);
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <footer className="bg-stone-900 text-stone-300 py-20">
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-12 border-b border-stone-800 pb-16 mb-12">
           <div className="col-span-1 md:col-span-1">
             <div className="mb-8">
-               <img 
-                src="/logo.png" 
-                alt="BalloonsByAks" 
-                className="h-32 w-auto bg-white rounded-[2.5rem] p-3"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
+              <div className="h-32 w-32 rounded-full overflow-hidden bg-white flex items-center justify-center p-2 shadow-xl border-4 border-stone-800">
+                 <img 
+                  src={logoUrl} 
+                  alt="BalloonsByAks" 
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              </div>
             </div>
             <h2 className="text-white font-serif text-2xl mb-4">BalloonsByAks</h2>
             <p className="max-w-xs text-sm leading-relaxed text-stone-500 font-light">
@@ -26,10 +42,10 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-white font-black text-[10px] tracking-[0.3em] uppercase mb-8">Navigation</h3>
             <ul className="space-y-4 text-sm font-light">
-              <li><button className="hover:text-[#fce7f3] transition-colors">Portfolio</button></li>
-              <li><button className="hover:text-[#fce7f3] transition-colors">Arch Studio</button></li>
-              <li><button className="hover:text-[#fce7f3] transition-colors">Rentals</button></li>
-              <li><button className="hover:text-[#fce7f3] transition-colors">Process</button></li>
+              <li><button onClick={() => handleNav('gallery')} className="hover:text-[#fce7f3] transition-colors">Portfolio</button></li>
+              <li><button onClick={() => handleNav('builder')} className="hover:text-[#fce7f3] transition-colors">Arch Studio</button></li>
+              <li><button className="hover:text-[#fce7f3] transition-colors opacity-50 cursor-not-allowed">Rentals</button></li>
+              <li><button className="hover:text-[#fce7f3] transition-colors opacity-50 cursor-not-allowed">Process</button></li>
             </ul>
           </div>
 
@@ -37,7 +53,7 @@ const Footer: React.FC = () => {
             <h3 className="text-white font-black text-[10px] tracking-[0.3em] uppercase mb-8">Details</h3>
             <ul className="space-y-4 text-sm font-light">
               <li><button className="hover:text-[#fce7f3] transition-colors">Toronto & GTA</button></li>
-              <li><button className="hover:text-[#fce7f3] transition-colors">FAQ</button></li>
+              <li><button onClick={() => handleNav('faq')} className="hover:text-[#fce7f3] transition-colors">FAQ</button></li>
               <li><button className="hover:text-[#fce7f3] transition-colors">Booking</button></li>
               <li><button className="hover:text-[#fce7f3] transition-colors">Contact</button></li>
             </ul>

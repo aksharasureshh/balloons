@@ -8,31 +8,33 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ activeSection, onNavigate }) => {
+  const logoUrl = "https://github.com/aksharasureshh/balloons/blob/main/logo.png?raw=true";
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-100">
       <div className="container mx-auto px-6 py-1 flex items-center justify-between">
         <button 
           onClick={() => onNavigate('home')}
-          className="group transition-all duration-300 hover:scale-105 active:scale-95"
+          className="group transition-all duration-300 hover:scale-105 active:scale-95 py-2"
         >
-          {/* Logo implementation - Reference the user's uploaded image as logo.png */}
-          <img 
-            src="/logo.png" 
-            alt="BalloonsByAks Logo" 
-            className="h-24 w-auto object-contain"
-            onError={(e) => {
-              // High-quality fallback if image is not yet available in the directory
-              const target = e.currentTarget;
-              target.style.display = 'none';
-              const parent = target.parentElement;
-              if (parent && !parent.querySelector('.logo-fallback')) {
-                const fallback = document.createElement('div');
-                fallback.className = 'logo-fallback flex flex-col items-center justify-center bg-[#fce7f3] rounded-full h-16 w-16 border border-stone-100 shadow-sm';
-                fallback.innerHTML = '<span class="text-[9px] font-black text-stone-900 tracking-tighter">BBA</span>';
-                parent.appendChild(fallback);
-              }
-            }}
-          />
+          <div className="h-20 w-20 rounded-full overflow-hidden bg-white flex items-center justify-center shadow-sm border border-stone-50">
+            <img 
+              src={logoUrl} 
+              alt="BalloonsByAks Logo" 
+              className="w-full h-full object-contain p-1"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = 'none';
+                const parent = target.parentElement;
+                if (parent && !parent.querySelector('.logo-fallback')) {
+                  const fallback = document.createElement('div');
+                  fallback.className = 'logo-fallback flex flex-col items-center justify-center h-full w-full bg-[#fce7f3]';
+                  fallback.innerHTML = '<span class="text-[10px] font-black text-stone-900 tracking-tighter">BBA</span>';
+                  parent.appendChild(fallback);
+                }
+              }}
+            />
+          </div>
         </button>
 
         <nav className="hidden md:flex items-center gap-10">
@@ -40,6 +42,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, onNavigate }) => {
             { id: 'home', label: 'Home' },
             { id: 'gallery', label: 'Gallery' },
             { id: 'builder', label: 'Arch Builder' },
+            { id: 'faq', label: 'FAQ' },
           ].map((item) => (
             <button
               key={item.id}
