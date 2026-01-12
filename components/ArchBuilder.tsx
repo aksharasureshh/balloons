@@ -1,7 +1,129 @@
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { BALLOON_COLORS, BACKDROP_COLORS } from '../constants';
-import { Cluster, BackdropShape } from '../types';
+import { Cluster, BackdropShape, Inquiry } from '../types';
+
+export const BalloonSphere = ({ color, className, style }: { color: string; className: string; style?: React.CSSProperties }) => {
+  // Enhanced metallic chrome effect with high-contrast specular highlights
+  return (
+    <div 
+      className={`rounded-full absolute ${className} shadow-[inset_-6px_-6px_15px_rgba(0,0,0,0.35),inset_6px_6px_15px_rgba(255,255,255,0.5),0_12px_24px_rgba(0,0,0,0.2)] transition-all`}
+      style={{ 
+        backgroundColor: color,
+        backgroundImage: `
+          radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.4) 8%, rgba(255,255,255,0) 40%),
+          radial-gradient(circle at 75% 75%, rgba(0,0,0,0.2) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 80%)
+        `,
+        ...style
+      }}
+    />
+  );
+};
+
+export const DetailedCluster = ({ cluster }: { cluster: Cluster }) => {
+  /**
+   * Refined Composition (Organic & Metallic):
+   * 1. 18" Balloon: Positioned at the back (z-0)
+   * 2. 12" Balloons: 3x middle layer (z-10)
+   * 3. 9" Balloons: 2x middle layer (z-10)
+   * 4. 5" Clusters: 2 groups of 3 balloons each, positioned on top (z-20)
+   */
+  
+  return (
+    <div className="relative w-full h-full pointer-events-none">
+      {/* --- LAYER 1: BACK (The 18" Heart) --- */}
+      <BalloonSphere color={cluster.color} className="w-[68%] h-[68%] top-[16%] left-[16%] z-0" />
+
+      {/* --- LAYER 2: MIDDLE (3x 12" and 2x 9") --- */}
+      {/* 3x 12" */}
+      <BalloonSphere color={cluster.color} className="w-[52%] h-[52%] top-[0%] left-[24%] z-10" />
+      <BalloonSphere color={cluster.color} className="w-[52%] h-[52%] top-[48%] left-[0%] z-10" />
+      <BalloonSphere color={cluster.color} className="w-[52%] h-[52%] top-[45%] left-[48%] z-10" />
+
+      {/* 2x 9" */}
+      <BalloonSphere color={cluster.color} className="w-[40%] h-[40%] top-[12%] left-[4%] z-10" />
+      <BalloonSphere color={cluster.color} className="w-[40%] h-[40%] top-[60%] left-[32%] z-10" />
+
+      {/* --- LAYER 3: TOP (2 clusters of 3x 5") --- */}
+      {/* Small Cluster A */}
+      <div className="absolute top-[20%] left-[30%] w-[35%] h-[35%] z-20">
+         <BalloonSphere color={cluster.color} className="w-[45%] h-[45%] top-[0%] left-[20%] z-30" />
+         <BalloonSphere color={cluster.color} className="w-[45%] h-[45%] top-[25%] left-[0%] z-30" />
+         <BalloonSphere color={cluster.color} className="w-[45%] h-[45%] top-[28%] left-[30%] z-30" />
+      </div>
+
+      {/* Small Cluster B */}
+      <div className="absolute bottom-[20%] right-[25%] w-[32%] h-[32%] z-20">
+         <BalloonSphere color={cluster.color} className="w-[45%] h-[45%] top-[0%] left-[25%] z-30" />
+         <BalloonSphere color={cluster.color} className="w-[45%] h-[45%] top-[20%] left-[0%] z-30" />
+         <BalloonSphere color={cluster.color} className="w-[45%] h-[45%] top-[22%] left-[35%] z-30" />
+      </div>
+    </div>
+  );
+};
+
+// Removed vinylText display functionality as requested.
+export const ArchBackdropRenderer = ({ shape, color }: { shape: BackdropShape, color: string }) => {
+  const style = { backgroundColor: color };
+  const shadowStyle = "shadow-[inset_0_-10px_20px_rgba(0,0,0,0.05),inset_0_5px_10px_rgba(255,255,255,0.2),5px_15px_30px_rgba(0,0,0,0.1)] transition-all duration-500 border border-stone-200/20";
+  const containerClasses = "relative w-full h-[85%] flex items-end justify-center transition-all duration-700 mb-8";
+
+  switch (shape) {
+    case 'arch':
+      return (
+        <div className={containerClasses}>
+          <div className={`relative w-[70%] h-full rounded-t-[300px] ${shadowStyle} flex items-center justify-center`} style={style} />
+        </div>
+      );
+    case 'double-arch':
+      return (
+        <div className={containerClasses}>
+          <div className={`w-[55%] h-full rounded-t-[200px] ${shadowStyle} -mr-24 relative z-0 origin-bottom`} style={style} />
+          <div className={`w-[55%] h-[85%] rounded-t-[200px] ${shadowStyle} relative z-10 shadow-[-15px_0_25px_rgba(0,0,0,0.25)] flex items-center justify-center`} style={style} />
+        </div>
+      );
+    case 'three-piece-arch':
+      return (
+        <div className={`${containerClasses} gap-4 px-4`}>
+          <div className={`w-[26%] h-[75%] rounded-tl-[240px] ${shadowStyle} relative z-0`} style={style} />
+          <div className={`relative w-[45%] h-full rounded-t-[300px] ${shadowStyle} relative z-0 flex items-center justify-center`} style={style} />
+          <div className={`w-[26%] h-[75%] rounded-tr-[240px] ${shadowStyle} relative z-0`} style={style} />
+        </div>
+      );
+    case 'square':
+      return (
+        <div className={containerClasses}>
+           <div className="relative w-[80%] h-[85%] border-t-[30px] border-l-[30px] border-r-[30px] rounded-t-lg transition-all duration-500 shadow-md flex items-center justify-center" 
+                style={{ borderColor: color }}>
+             <div className="w-full h-full bg-stone-50/5 flex items-center justify-center relative" />
+           </div>
+        </div>
+      );
+    case 'circle':
+      return (
+        <div className={containerClasses}>
+          <div className="relative w-[85%] aspect-square flex items-center justify-center">
+            <div 
+              className={`relative w-full h-full rounded-full transition-all duration-500 flex items-center justify-center`} 
+              style={{ 
+                border: `4px solid ${color}`,
+                boxShadow: `0 8px 15px rgba(0,0,0,0.05), inset 0 0 5px rgba(0,0,0,0.02)`
+              }} 
+            />
+          </div>
+        </div>
+      );
+    case 'wall':
+      return (
+        <div className={containerClasses}>
+          <div className={`relative w-full h-full ${shadowStyle} flex items-center justify-center`} style={style} />
+        </div>
+      );
+    default:
+      return null;
+  }
+};
 
 const ArchBuilder: React.FC = () => {
   const [backdropColor, setBackdropColor] = useState(BACKDROP_COLORS[0].hex);
@@ -11,43 +133,31 @@ const ArchBuilder: React.FC = () => {
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [isOverTrash, setIsOverTrash] = useState(false);
   
-  // State for additional customer requirements
   const [otherSpecs, setOtherSpecs] = useState('');
   const [vinylText, setVinylText] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [setupLocation, setSetupLocation] = useState('');
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showCopyMessage, setShowCopyMessage] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   
   const builderRef = useRef<HTMLDivElement>(null);
-  const backdropInputRef = useRef<HTMLInputElement>(null);
-  const balloonInputRef = useRef<HTMLInputElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const backdropColorInputRef = useRef<HTMLInputElement>(null);
+  const clusterColorInputRef = useRef<HTMLInputElement>(null);
 
-  const activeBalloonColorObj = BALLOON_COLORS.find(c => c.hex.toLowerCase() === selectedBalloonColor.toLowerCase());
-
-  const addCluster = useCallback((e: React.MouseEvent) => {
-    if (draggingId) return;
-    const target = e.target as HTMLElement;
-    if (target.closest('button') || target.closest('input') || target.closest('textarea')) return;
-    
-    if (!builderRef.current) return;
-    
-    const rect = builderRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    if (y > 92) return;
-
+  const handleAddCluster = () => {
     const newCluster: Cluster = {
       id: Math.random().toString(36).substr(2, 9),
       color: selectedBalloonColor,
-      x,
-      y,
+      x: 50,
+      y: 40,
       rotation: Math.random() * 360,
-      size: 155,
+      size: 190, 
     };
-
     setClusters((prev) => [...prev, newCluster]);
-  }, [selectedBalloonColor, draggingId]);
+  };
 
   const handleDragStart = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -95,252 +205,42 @@ const ArchBuilder: React.FC = () => {
     };
   }, [draggingId, handleMouseMove, handleMouseUp]);
 
-  const generateAndDownloadImage = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Fixed internal resolution that matches the 4/5 aspect ratio
-    const W = 1600;
-    const H = 2000;
-    canvas.width = W;
-    canvas.height = H;
-
-    // Fill background
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, W, H);
-
-    // Draw Backdrop
-    const drawExactBackdrop = () => {
-      ctx.fillStyle = backdropColor;
-      ctx.strokeStyle = backdropColor;
-      
-      const centerX = W / 2;
-      const bottomY = H * 0.85;
-      
-      ctx.beginPath();
-      switch (backdropShape) {
-        case 'arch': {
-          const w = W * 0.7;
-          const h = H * 0.85;
-          ctx.roundRect(centerX - w/2, bottomY - h, w, h, [w/2, w/2, 0, 0]);
-          ctx.fill();
-          break;
-        }
-        case 'double-arch': {
-          const w = W * 0.55;
-          const hMain = H * 0.85;
-          const hOffset = hMain * 0.85;
-          const overlapOffset = 96 * (W / 672);
-          ctx.roundRect(centerX - w + overlapOffset, bottomY - hMain, w, hMain, [w/2, w/2, 0, 0]);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.shadowBlur = 30;
-          ctx.shadowColor = 'rgba(0,0,0,0.15)';
-          ctx.roundRect(centerX - overlapOffset, bottomY - hOffset, w, hOffset, [w/2, w/2, 0, 0]);
-          ctx.fill();
-          ctx.shadowBlur = 0;
-          break;
-        }
-        case 'three-piece-arch': {
-          const gap = 16 * (W/400);
-          const wCenter = W * 0.45;
-          const wSide = W * 0.26;
-          ctx.roundRect(centerX - wCenter/2 - gap - wSide, bottomY - H*0.63, wSide, H*0.63, [wSide, 0, 0, 0]);
-          ctx.roundRect(centerX - wCenter/2, bottomY - H*0.85, wCenter, H*0.85, [wCenter/2, wCenter/2, 0, 0]);
-          ctx.roundRect(centerX + wCenter/2 + gap, bottomY - H*0.63, wSide, H*0.63, [0, wSide, 0, 0]);
-          ctx.fill();
-          break;
-        }
-        case 'square': {
-          const w = W * 0.8;
-          const h = H * 0.72;
-          ctx.lineWidth = 30 * (W/672);
-          ctx.strokeRect(centerX - w/2, bottomY - h, w, h);
-          break;
-        }
-        case 'circle': {
-          const radius = (W * 0.85) / 2;
-          ctx.lineWidth = 4 * (W/672);
-          ctx.beginPath();
-          ctx.arc(centerX, H * 0.42, radius, 0, Math.PI * 2);
-          ctx.stroke();
-          break;
-        }
-        case 'wall': {
-          ctx.fillRect(0, bottomY - H*0.85, W, H*0.85);
-          break;
-        }
-      }
-    };
-    drawExactBackdrop();
-
-    const drawBalloon = (x: number, y: number, r: number, color: string) => {
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fillStyle = color;
-      ctx.fill();
-      const grad = ctx.createRadialGradient(x - r*0.3, y - r*0.3, 0, x, y, r);
-      grad.addColorStop(0, 'rgba(255,255,255,0.4)');
-      grad.addColorStop(0.5, 'rgba(255,255,255,0)');
-      ctx.fillStyle = grad;
-      ctx.fill();
-    };
-
-    clusters.forEach(c => {
-      const cx = (c.x / 100) * W;
-      const cy = (c.y / 100) * H;
-      const size = c.size * (W/672) * 1.2;
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(c.rotation * Math.PI / 180);
-      const b = (pct: number) => (pct / 100) * size;
-      drawBalloon(b(30-50), b(-5-50), b(25), c.color);
-      drawBalloon(b(5-50), b(95-50), b(25), c.color);
-      drawBalloon(b(95-50), b(10-50), b(25), c.color);
-      drawBalloon(0, 0, b(37.5), c.color);
-      drawBalloon(b(-5-50), b(40-50), b(17.5), c.color);
-      drawBalloon(b(100-50), b(30-50), b(17.5), c.color);
-      const innerSize = size * 0.45;
-      const ib = (pct: number) => (pct / 100) * innerSize;
-      ctx.save();
-      drawBalloon(0, ib(-8-50), ib(32.5), c.color);
-      drawBalloon(0, ib(108-50), ib(32.5), c.color);
-      drawBalloon(ib(-8-50), 0, ib(32.5), c.color);
-      drawBalloon(ib(108-50), 0, ib(32.5), c.color);
-      ctx.restore();
-      ctx.restore();
-    });
-
-    ctx.fillStyle = '#1A1A1A';
-    ctx.font = 'bold 40px serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('BalloonsByAks Official Mockup', W/2, 100);
-    ctx.font = '24px sans-serif';
-    ctx.fillStyle = '#78716c';
-    ctx.fillText(`Configuration: ${backdropShape.toUpperCase()} | Vinyl: ${vinylText || 'N/A'}`, W/2, 150);
-
-    const link = document.createElement('a');
-    link.download = `BalloonsByAks_Design_${Date.now()}.png`;
-    link.href = canvas.toDataURL('image/png', 1.0);
-    link.click();
-  };
-
-  const getInquiryMessage = () => {
-    const balloonSummary = clusters.length > 0 
-      ? Array.from(new Set(clusters.map(c => {
-          const colorObj = BALLOON_COLORS.find(bc => bc.hex.toLowerCase() === c.color.toLowerCase());
-          return colorObj ? colorObj.name : c.color;
-        }))).join(', ')
-      : 'No specific balloon clusters placed';
-
-    return `Hello BalloonsByAks!
-
-I've just designed an installation on your website and would like a quote. 
-
-IMPORTANT: I have attached my custom design mockup (BalloonsByAks_Design.png) to this email!
-
-DESIGN DETAILS:
----------------------------
-- Backdrop Shape: ${backdropShape.replace('-', ' ').toUpperCase()}
-- Backdrop Color: ${backdropColor}
-- Balloon Colors Used: ${balloonSummary}
-- Custom Vinyl Text: ${vinylText || 'None requested'}
-- Other Specifications: ${otherSpecs || 'None specified'}
-
-Please get back to me with a quote and availability!`;
-  };
-
   const handleRequestQuote = () => {
-    setIsSubmitting(true);
-    generateAndDownloadImage();
-    const message = getInquiryMessage();
-    const recipient = "akshara.nalliah@gmail.com";
-    const subject = encodeURIComponent("New Design Inquiry - BalloonsByAks");
-    const body = encodeURIComponent(message);
-    const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${body}`;
-    setTimeout(() => {
-      window.location.href = mailtoUrl;
-      setIsSubmitting(false);
-      setShowCopyMessage(true);
-    }, 1000);
-  };
-
-  const handleCopyMessage = () => {
-    navigator.clipboard.writeText(getInquiryMessage());
-    alert("Summary copied! Please paste it into your email and attach the design image from your downloads.");
-  };
-
-  const getBargainBalloonsUrl = () => {
-    if (!activeBalloonColorObj) return null;
-    const query = activeBalloonColorObj.bargainBalloonsQuery || activeBalloonColorObj.name;
-    return `https://bargainballoons.ca/search.asp?keyword=${encodeURIComponent(query)}`;
-  };
-
-  const renderBackdrop = () => {
-    const style = { backgroundColor: backdropColor };
-    const shadowStyle = "shadow-[inset_0_-10px_20px_rgba(0,0,0,0.05),inset_0_5px_10px_rgba(255,255,255,0.2),5px_15px_30px_rgba(0,0,0,0.1)] transition-all duration-500 border border-stone-200/20";
-    const containerClasses = "relative w-full h-[85%] flex items-end justify-center transition-all duration-700 mb-8";
-
-    switch (backdropShape) {
-      case 'arch':
-        return (
-          <div className={containerClasses}>
-            <div className={`w-[70%] h-full rounded-t-[300px] ${shadowStyle}`} style={style} />
-          </div>
-        );
-      case 'double-arch':
-        return (
-          <div className={containerClasses}>
-            <div className={`w-[55%] h-full rounded-t-[200px] ${shadowStyle} -mr-24 relative z-0 origin-bottom`} style={style} />
-            <div className={`w-[55%] h-[85%] rounded-t-[200px] ${shadowStyle} relative z-10 shadow-[-15px_0_25px_rgba(0,0,0,0.25)]`} style={style} />
-          </div>
-        );
-      case 'three-piece-arch':
-        return (
-          <div className={`${containerClasses} gap-4 px-4`}>
-            <div className={`w-[26%] h-[75%] rounded-tl-[240px] ${shadowStyle} relative z-0`} style={style} />
-            <div className={`w-[45%] h-full rounded-t-[300px] ${shadowStyle} relative z-0`} style={style} />
-            <div className={`w-[26%] h-[75%] rounded-tr-[240px] ${shadowStyle} relative z-0`} style={style} />
-          </div>
-        );
-      case 'square':
-        return (
-          <div className={containerClasses}>
-             <div className="w-[80%] h-[85%] border-t-[30px] border-l-[30px] border-r-[30px] rounded-t-lg transition-all duration-500 shadow-md flex items-end" 
-                  style={{ borderColor: backdropColor }}>
-               <div className="w-full h-full bg-stone-50/5" />
-             </div>
-          </div>
-        );
-      case 'circle':
-        return (
-          <div className={containerClasses}>
-            <div className="relative w-[85%] aspect-square flex items-center justify-center">
-              <div 
-                className={`w-full h-full rounded-full transition-all duration-500`} 
-                style={{ 
-                  border: `4px solid ${backdropColor}`,
-                  boxShadow: `0 8px 15px rgba(0,0,0,0.05), inset 0 0 5px rgba(0,0,0,0.02)`
-                }} 
-              />
-            </div>
-          </div>
-        );
-      case 'wall':
-        return (
-          <div className={containerClasses}>
-            <div className={`w-full h-full ${shadowStyle}`} style={style} />
-          </div>
-        );
-      default:
-        return (
-          <div className={containerClasses}>
-            <div className={`w-[70%] h-full rounded-t-[300px] ${shadowStyle}`} style={style} />
-          </div>
-        );
+    if (!customerName || !customerEmail || !customerPhone || !setupLocation) {
+      alert("Please fill in all contact information, including setup location.");
+      return;
     }
+    
+    setIsSubmitting(true);
+    
+    const inquiry: Inquiry = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: customerName,
+      email: customerEmail,
+      phone: customerPhone,
+      location: setupLocation,
+      date: new Date().toLocaleString(),
+      backdropShape,
+      backdropColor,
+      clusters,
+      vinylText,
+      otherSpecs
+    };
+
+    const existingInquiries = JSON.parse(localStorage.getItem('balloonsbyaks_inquiries') || '[]');
+    localStorage.setItem('balloonsbyaks_inquiries', JSON.stringify([inquiry, ...existingInquiries]));
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setShowSuccess(true);
+      setClusters([]);
+      setVinylText('');
+      setOtherSpecs('');
+      setCustomerName('');
+      setCustomerEmail('');
+      setCustomerPhone('');
+      setSetupLocation('');
+    }, 1500);
   };
 
   const shapes: { id: BackdropShape; label: string }[] = [
@@ -352,20 +252,8 @@ Please get back to me with a quote and availability!`;
     { id: 'wall', label: 'Full Wall' },
   ];
 
-  const BalloonSphere = ({ color, className, style }: { color: string; className: string; style?: React.CSSProperties }) => (
-    <div 
-      className={`rounded-full absolute ${className} shadow-[inset_-4px_-4px_10px_rgba(0,0,0,0.2),inset_4px_4px_10px_rgba(255,255,255,0.4),0_8px_15px_rgba(0,0,0,0.15)] transition-all`}
-      style={{ 
-        backgroundColor: color,
-        backgroundImage: `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
-        ...style
-      }}
-    />
-  );
-
   return (
     <div className="min-h-[90vh] bg-stone-100 py-12 px-6 animate-in fade-in duration-500">
-      <canvas ref={canvasRef} className="hidden" />
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-[1fr_450px] gap-12 items-start">
           
@@ -378,10 +266,10 @@ Please get back to me with a quote and availability!`;
 
               <div 
                 ref={builderRef}
-                onClick={addCluster}
-                className="relative w-full max-w-2xl aspect-[4/5] flex items-end justify-center cursor-crosshair transition-all duration-700 select-none pb-20"
+                className="relative w-full max-w-2xl aspect-[4/5] flex items-end justify-center transition-all duration-700 select-none pb-20"
               >
-                {renderBackdrop()}
+                {/* Vinyl text visualization removed as requested */}
+                <ArchBackdropRenderer shape={backdropShape} color={backdropColor} />
 
                 {clusters.map((cluster) => (
                   <div
@@ -396,23 +284,7 @@ Please get back to me with a quote and availability!`;
                       transform: `translate(-50%, -50%) rotate(${cluster.rotation}deg)`,
                     }}
                   >
-                    <div className="relative w-full h-full pointer-events-none">
-                      <BalloonSphere color={cluster.color} className="w-[75%] h-[75%] top-[12.5%] left-[12.5%] z-10" />
-                      <BalloonSphere color={cluster.color} className="w-[50%] h-[50%] top-[-5%] left-[30%] z-[5]" />
-                      <BalloonSphere color={cluster.color} className="w-[50%] h-[50%] bottom-[-5%] left-[5%] z-[5]" />
-                      <BalloonSphere color={cluster.color} className="w-[50%] h-[50%] bottom-[10%] right-[-5%] z-[5]" />
-                      <BalloonSphere color={cluster.color} className="w-[35%] h-[35%] top-[40%] right-[55%] z-[15]" />
-                      <BalloonSphere color={cluster.color} className="w-[35%] h-[35%] top-[30%] right-[0%] z-[15]" />
-
-                      <div className="absolute inset-0 flex items-center justify-center z-20">
-                        <div className="relative w-[45%] h-[45%]">
-                          <BalloonSphere color={cluster.color} className="w-[65%] h-[65%] top-[-8%] left-[17.5%]" />
-                          <BalloonSphere color={cluster.color} className="w-[65%] h-[65%] bottom-[-8%] left-[17.5%]" />
-                          <BalloonSphere color={cluster.color} className="w-[65%] h-[65%] left-[-8%] top-[17.5%]" />
-                          <BalloonSphere color={cluster.color} className="w-[65%] h-[65%] right-[-8%] top-[17.5%]" />
-                        </div>
-                      </div>
-                    </div>
+                    <DetailedCluster cluster={cluster} />
                   </div>
                 ))}
 
@@ -454,8 +326,8 @@ Please get back to me with a quote and availability!`;
                      placeholder="What text would you like? (e.g. 'Happy Birthday Chloe')"
                      className="w-full bg-stone-50 border-2 border-stone-100 rounded-2xl p-4 text-sm focus:border-stone-900 focus:outline-none transition-all mb-4"
                    />
-                   <div className="p-4 bg-[#fce7f3]/30 rounded-xl text-[10px] text-stone-600 font-medium leading-relaxed">
-                     * Vinyl customization is perfect for names, ages, or branding on your backdrop.
+                   <div className="p-4 bg-stone-50 rounded-xl text-[10px] text-stone-400 font-medium leading-relaxed">
+                     * vinyl text is collected for your booking order.
                    </div>
                  </div>
                </div>
@@ -487,8 +359,17 @@ Please get back to me with a quote and availability!`;
 
             <div className="bg-stone-50 rounded-[2rem] p-6 border border-stone-100">
               <div className="flex flex-col gap-4 mb-6">
-                <h3 className="text-[10px] font-black tracking-[0.4em] uppercase text-stone-400">Step 2: Base Color</h3>
-                <div className="flex flex-wrap gap-2">
+                <h3 className="text-[10px] font-black tracking-[0.4em] uppercase text-stone-400">Step 2: Colors & Clusters</h3>
+                
+                <button 
+                  onClick={handleAddCluster}
+                  className="w-full py-4 bg-[#fce7f3] text-stone-900 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:brightness-95 transition-all shadow-sm mb-4"
+                >
+                  + Add Balloon Cluster
+                </button>
+
+                <div className="flex flex-wrap gap-2 mb-2">
+                  <span className="w-full text-[9px] font-black uppercase tracking-widest text-stone-400 mb-1">Backdrop Color Swatches</span>
                   {BACKDROP_COLORS.map((color) => (
                     <button
                       key={color.hex}
@@ -500,43 +381,39 @@ Please get back to me with a quote and availability!`;
                     />
                   ))}
                 </div>
-              </div>
-
-              <div className="relative">
-                <button 
-                  onClick={() => backdropInputRef.current?.click()}
-                  className="w-full flex items-center justify-between bg-white px-5 py-3 rounded-2xl border-2 border-stone-200 hover:border-stone-900 group transition-all"
-                >
-                  <span className="text-[10px] font-black text-stone-900 uppercase tracking-widest">Custom Shade</span>
-                  <div className="w-8 h-8 rounded-lg border-2 border-stone-100" style={{ backgroundColor: backdropColor }} />
-                </button>
-                <input 
-                  ref={backdropInputRef}
-                  type="color" 
-                  value={backdropColor} 
-                  onChange={(e) => setBackdropColor(e.target.value)}
-                  className="absolute inset-0 w-0 h-0 opacity-0 pointer-events-none"
-                />
-              </div>
-            </div>
-
-            <div className="bg-stone-50 rounded-[2rem] p-6 border border-stone-100">
-              <div className="flex flex-col gap-4 mb-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-[10px] font-black tracking-[0.4em] uppercase text-stone-400">Step 3: Balloon Hue</h3>
-                  {activeBalloonColorObj && (
-                    <a 
-                      href={getBargainBalloonsUrl() || '#'} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-[9px] font-black text-stone-400 hover:text-stone-900 uppercase tracking-widest transition-colors flex items-center gap-1.5"
-                    >
-                      Matching Latex
-                      <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                    </a>
-                  )}
+                
+                <div className="flex items-center gap-3 pt-2 mt-2 border-t border-stone-200">
+                  <div className="flex-1">
+                    <label className="text-[9px] font-black uppercase tracking-widest text-stone-400 block mb-1">Custom Backdrop Hex</label>
+                    <div className="flex gap-2">
+                      <input 
+                        type="text"
+                        value={backdropColor}
+                        onChange={(e) => setBackdropColor(e.target.value)}
+                        className="bg-white border border-stone-200 rounded-lg px-2 py-1 text-[10px] font-mono w-full focus:border-stone-900 outline-none"
+                        placeholder="#HEXCODE"
+                      />
+                      <button 
+                        onClick={() => backdropColorInputRef.current?.click()}
+                        className="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center text-xs hover:bg-stone-800 transition-all"
+                      >
+                        🎨
+                      </button>
+                      <input 
+                        type="color" 
+                        ref={backdropColorInputRef}
+                        className="absolute opacity-0 pointer-events-none"
+                        value={backdropColor.startsWith('#') ? backdropColor : '#ffffff'}
+                        onChange={(e) => setBackdropColor(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="grid grid-cols-5 gap-2">
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <span className="w-full text-[9px] font-black uppercase tracking-widest text-stone-400 mb-1">Cluster Color Swatches</span>
+                <div className="grid grid-cols-5 gap-2 mb-2">
                   {BALLOON_COLORS.map((color) => (
                     <button
                       key={color.hex}
@@ -548,58 +425,72 @@ Please get back to me with a quote and availability!`;
                     />
                   ))}
                 </div>
-              </div>
-
-              <div className="relative">
-                <button 
-                  onClick={() => balloonInputRef.current?.click()}
-                  className="w-full flex items-center justify-between bg-white px-5 py-3 rounded-2xl border-2 border-stone-200 hover:border-stone-900 group transition-all"
-                >
-                  <span className="text-[10px] font-black text-stone-900 uppercase tracking-widest">Custom Balloon</span>
-                  <div className="w-8 h-8 rounded-lg border-2 border-stone-100" style={{ backgroundColor: selectedBalloonColor }} />
-                </button>
-                <input 
-                  ref={balloonInputRef}
-                  type="color" 
-                  value={selectedBalloonColor} 
-                  onChange={(e) => setSelectedBalloonColor(e.target.value)}
-                  className="absolute inset-0 w-0 h-0 opacity-0 pointer-events-none"
-                />
+                <div className="flex items-center gap-3 pt-2 mt-2 border-t border-stone-200">
+                  <div className="flex-1">
+                    <label className="text-[9px] font-black uppercase tracking-widest text-stone-400 block mb-1">Custom Cluster Hex</label>
+                    <div className="flex gap-2">
+                      <input 
+                        type="text"
+                        value={selectedBalloonColor}
+                        onChange={(e) => setSelectedBalloonColor(e.target.value)}
+                        className="bg-white border border-stone-200 rounded-lg px-2 py-1 text-[10px] font-mono w-full focus:border-stone-900 outline-none"
+                        placeholder="#HEXCODE"
+                      />
+                      <button 
+                        onClick={() => clusterColorInputRef.current?.click()}
+                        className="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center text-xs hover:bg-stone-800 transition-all"
+                      >
+                        🎨
+                      </button>
+                      <input 
+                        type="color" 
+                        ref={clusterColorInputRef}
+                        className="absolute opacity-0 pointer-events-none"
+                        value={selectedBalloonColor.startsWith('#') ? selectedBalloonColor : '#ffffff'}
+                        onChange={(e) => setSelectedBalloonColor(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            
-            <p className="text-[9px] text-stone-400 font-bold tracking-widest uppercase text-center px-4 leading-relaxed">
-              * Colors will be matched as closely as possible to your design based on availability.
-            </p>
 
-            <div className="pt-2 space-y-3">
+            <div className="bg-stone-50 rounded-[2rem] p-6 border border-stone-100 space-y-4">
+              <h3 className="text-[10px] font-black tracking-[0.4em] uppercase text-stone-400">Contact & Location</h3>
+              <input 
+                type="text" placeholder="Full Name" value={customerName} onChange={(e) => setCustomerName(e.target.value)}
+                className="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-xs focus:border-stone-900 outline-none"
+              />
+              <input 
+                type="email" placeholder="Email Address" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)}
+                className="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-xs focus:border-stone-900 outline-none"
+              />
+              <input 
+                type="tel" placeholder="Phone Number" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)}
+                className="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-xs focus:border-stone-900 outline-none"
+              />
+              <input 
+                type="text" placeholder="Setup Location (Address or Nearest Intersection)" value={setupLocation} onChange={(e) => setSetupLocation(e.target.value)}
+                className="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-xs focus:border-stone-900 outline-none"
+              />
+            </div>
+            
+            <div className="pt-2">
               <button 
                 onClick={handleRequestQuote}
-                disabled={isSubmitting}
-                className={`w-full py-5 bg-stone-900 text-white rounded-3xl font-black text-[11px] uppercase tracking-[0.3em] hover:bg-stone-800 transition-all flex items-center justify-center gap-4 shadow-2xl active:scale-[0.96] ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                disabled={isSubmitting || clusters.length === 0}
+                className={`w-full py-5 bg-stone-900 text-white rounded-3xl font-black text-[11px] uppercase tracking-[0.3em] hover:bg-stone-800 transition-all flex items-center justify-center gap-4 shadow-2xl active:scale-[0.96] disabled:opacity-50`}
               >
-                {isSubmitting ? 'Finalizing Design...' : 'SEND INQUIRY FOR QUOTE'}
+                {isSubmitting ? 'Sending Request...' : 'SEND INQUIRY FOR QUOTE'}
               </button>
               
-              <div className={`p-4 bg-emerald-50 border border-emerald-100 rounded-2xl transition-all duration-500 ${showCopyMessage ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-                 <p className="text-[10px] text-emerald-900 font-bold uppercase tracking-tight mb-3">
-                   Design saved to downloads! 
-                 </p>
-                 <button 
-                  onClick={handleCopyMessage}
-                  className="w-full py-3 bg-white border border-emerald-200 text-emerald-800 rounded-xl text-[9px] font-black uppercase tracking-widest hover:border-emerald-600 transition-all shadow-sm"
-                 >
-                   Copy Summary & Instructions
-                 </button>
-              </div>
-
-              <button 
-                onClick={() => window.print()}
-                className="w-full py-5 border-[3px] border-stone-900 text-stone-900 rounded-3xl font-black text-[11px] uppercase tracking-[0.3em] hover:bg-stone-900 hover:text-white transition-all flex items-center justify-center gap-4 active:scale-[0.96]"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                Export Mockup
-              </button>
+              {showSuccess && (
+                <div className="mt-4 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl animate-in zoom-in duration-300">
+                  <p className="text-[10px] text-emerald-900 font-bold uppercase tracking-tight text-center">
+                    ✨ Inquiry Sent Successfully! We'll reach out soon.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

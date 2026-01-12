@@ -8,30 +8,30 @@ interface Photo {
 }
 
 const Gallery: React.FC = () => {
-  // Synchronized list of the 22 confirmed BalloonsByAks setups currently on GitHub
+  // Updated list using raw.githubusercontent.com for consistent image loading
   const photos: Photo[] = [
-    { id: 1, title: 'Midnight & Gold Luxe', img: 'https://github.com/aksharasureshh/balloons/blob/main/1.JPG?raw=true' },
-    { id: 2, title: 'Spider-Man Birthday Stage', img: 'https://github.com/aksharasureshh/balloons/blob/main/2.JPG?raw=true' },
-    { id: 3, title: 'Golden Congratulations', img: 'https://github.com/aksharasureshh/balloons/blob/main/3.JPG?raw=true' },
-    { id: 4, title: 'Monochrome Birthday', img: 'https://github.com/aksharasureshh/balloons/blob/main/4.JPG?raw=true' },
-    { id: 5, title: 'Marquee Milestone 50', img: 'https://github.com/aksharasureshh/balloons/blob/main/5.JPG?raw=true' },
-    { id: 6, title: 'Hello Thirty White Luxe', img: 'https://github.com/aksharasureshh/balloons/blob/main/6.JPG?raw=true' },
-    { id: 7, title: 'Crimson & Gold Hoop', img: 'https://github.com/aksharasureshh/balloons/blob/main/7.JPG?raw=true' },
-    { id: 8, title: 'Signature 36 Neon', img: 'https://github.com/aksharasureshh/balloons/blob/main/8.JPG?raw=true' },
-    { id: 9, title: 'OVO Themed Luxury', img: 'https://github.com/aksharasureshh/balloons/blob/main/9.JPG?raw=true' },
-    { id: 10, title: 'Classic White Neon Arch', img: 'https://github.com/aksharasureshh/balloons/blob/main/10.JPG?raw=true' },
-    { id: 11, title: 'Sage & Gold Garden', img: 'https://github.com/aksharasureshh/balloons/blob/main/11.JPG?raw=true' },
-    { id: 12, title: "Let's Party Black & Gold", img: 'https://github.com/aksharasureshh/balloons/blob/main/12.JPG?raw=true' },
-    { id: 13, title: 'Carousel Unicorn Fantasy', img: 'https://github.com/aksharasureshh/balloons/blob/main/13.JPG?raw=true' },
-    { id: 14, title: 'Luxe Entrance Pillars', img: 'https://github.com/aksharasureshh/balloons/blob/main/14.JPG?raw=true' },
-    { id: 15, title: 'Toy Story Custom', img: 'https://github.com/aksharasureshh/balloons/blob/main/15.JPG?raw=true' },
-    { id: 16, title: 'Teal & Gold Organic', img: 'https://github.com/aksharasureshh/balloons/blob/main/16.JPG?raw=true' },
-    { id: 17, title: 'Black Chrome Pedestals', img: 'https://github.com/aksharasureshh/balloons/blob/main/17.JPG?raw=true' },
-    { id: 18, title: 'Sage Grass Wall', img: 'https://github.com/aksharasureshh/balloons/blob/main/18.JPG?raw=true' },
-    { id: 19, title: 'Soft Cream Arch', img: 'https://github.com/aksharasureshh/balloons/blob/main/19.JPG?raw=true' },
-    { id: 20, title: 'Sports Fan Special', img: 'https://github.com/aksharasureshh/balloons/blob/main/20.JPG?raw=true' },
-    { id: 21, title: 'Bride To Be Bow', img: 'https://github.com/aksharasureshh/balloons/blob/main/21.JPG?raw=true' },
-    { id: 22, title: 'Red & Gold Studio', img: 'https://github.com/aksharasureshh/balloons/blob/main/22.JPG?raw=true' },
+    { id: 1, title: 'Midnight & Gold Luxe', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/1.JPG' },
+    { id: 2, title: 'Spider-Man Birthday Stage', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/2.JPG' },
+    { id: 3, title: 'Golden Congratulations', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/3.JPG' },
+    { id: 4, title: 'Monochrome Birthday', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/4.JPG' },
+    { id: 5, title: 'Marquee Milestone 50', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/5.JPG' },
+    { id: 6, title: 'Hello Thirty White Luxe', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/6.JPG' },
+    { id: 7, title: 'Crimson & Gold Hoop', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/7.JPG' },
+    { id: 8, title: 'Signature 36 Neon', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/8.JPG' },
+    { id: 9, title: 'OVO Themed Luxury', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/9.JPG' },
+    { id: 10, title: 'Classic White Neon Arch', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/10.JPG' },
+    { id: 11, title: 'Sage & Gold Garden', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/11.JPG' },
+    { id: 12, title: "Let's Party Black & Gold", img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/12.JPG' },
+    { id: 13, title: 'Carousel Unicorn Fantasy', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/13.JPG' },
+    { id: 14, title: 'Luxe Entrance Pillars', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/14.JPG' },
+    { id: 15, title: 'Toy Story Custom', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/15.JPG' },
+    { id: 16, title: 'Teal & Gold Organic', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/16.JPG' },
+    { id: 17, title: 'Black Chrome Pedestals', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/17.JPG' },
+    { id: 18, title: 'Sage Grass Wall', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/18.JPG' },
+    { id: 19, title: 'Soft Cream Arch', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/19.JPG' },
+    { id: 20, title: 'Sports Fan Special', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/20.JPG' },
+    { id: 21, title: 'Bride To Be Bow', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/21.JPG' },
+    { id: 22, title: 'Red & Gold Studio', img: 'https://raw.githubusercontent.com/aksharasureshh/balloons/main/22.JPG' },
   ];
 
   return (
@@ -45,7 +45,7 @@ const Gallery: React.FC = () => {
           <div className="w-20 h-1 bg-[#fce7f3] mt-8"></div>
         </div>
 
-        {/* Masonry Grid - Now perfectly balanced with 22 items */}
+        {/* Masonry Grid */}
         <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
           {photos.map((photo) => (
             <div 
@@ -58,14 +58,12 @@ const Gallery: React.FC = () => {
                 loading="lazy"
                 className="w-full h-auto block object-cover transition-all duration-1000 group-hover:scale-105"
                 onError={(e) => {
-                  // If an image still fails, we hide the container to prevent placeholders
                   const target = e.currentTarget;
                   const parent = target.closest('.break-inside-avoid-column');
                   if (parent) (parent as HTMLElement).style.display = 'none';
                 }}
               />
               
-              {/* Overlay with strict BalloonsByAks branding */}
               <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-10 pointer-events-none">
                 <span className="text-[#fce7f3] text-[10px] font-black tracking-[0.4em] uppercase mb-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
                   BalloonsByAks

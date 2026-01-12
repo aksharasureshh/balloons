@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ activeSection, onNavigate }) => {
-  const logoUrl = "https://github.com/aksharasureshh/balloons/blob/main/logo.png?raw=true";
+  const logoUrl = "https://raw.githubusercontent.com/aksharasureshh/balloons/main/logo.png";
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-100">
@@ -43,6 +43,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, onNavigate }) => {
             { id: 'gallery', label: 'Gallery' },
             { id: 'builder', label: 'Arch Builder' },
             { id: 'faq', label: 'FAQ' },
+            { id: 'admin', label: 'Admin' },
           ].map((item) => (
             <button
               key={item.id}

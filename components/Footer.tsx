@@ -7,7 +7,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
-  const logoUrl = "https://github.com/aksharasureshh/balloons/blob/main/logo.png?raw=true";
+  const logoUrl = "https://raw.githubusercontent.com/aksharasureshh/balloons/main/logo.png";
 
   const handleNav = (section: Section) => {
     if (onNavigate) {

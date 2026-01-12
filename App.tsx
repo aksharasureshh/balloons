@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Gallery from './components/Gallery';
 import ArchBuilder from './components/ArchBuilder';
 import FAQ from './components/FAQ';
+import AdminPortal from './components/AdminPortal';
 
 const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<Section>('home');
@@ -21,6 +22,8 @@ const App: React.FC = () => {
         return <ArchBuilder />;
       case 'faq':
         return <FAQ />;
+      case 'admin':
+        return <AdminPortal />;
       default:
         return <Home onNavigate={setActiveSection} />;
     }

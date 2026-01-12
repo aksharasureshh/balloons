@@ -78,12 +78,11 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             <div className="relative w-full max-w-[500px] aspect-[4/5]">
               <div className="absolute inset-0 bg-stone-50 rounded-[2.5rem] translate-x-4 translate-y-4 -z-10"></div>
               <img 
-                src="https://github.com/aksharasureshh/balloons/blob/main/hero.JPG?raw=true" 
+                src="https://raw.githubusercontent.com/aksharasureshh/balloons/main/hero.JPG" 
                 alt="Luxury Black, White and Tan Balloon Installation with Happy Birthday Neon Sign" 
                 className="w-full h-full object-cover rounded-[2.5rem] shadow-xl border border-stone-100 relative z-10"
                 onError={(e) => {
                   const target = e.currentTarget;
-                  // Use a high-quality backup that matches the aesthetic if the primary image fails to load
                   target.src = "https://images.unsplash.com/photo-1530103862676-fa8c913a3d67?q=80&w=1200&auto=format&fit=crop";
                 }}
               />
