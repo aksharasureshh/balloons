@@ -28,15 +28,15 @@ const FAQ: React.FC = () => {
   return (
     <div className="py-24 bg-stone-50 min-h-screen animate-in fade-in duration-700">
       <div className="container mx-auto px-6">
-        <div className="max-w-3xl mb-20">
+        <div className="max-w-3xl mb-20 mx-auto text-center">
           <h1 className="text-5xl font-serif mb-6 text-stone-900 tracking-tight">Common Inquiries</h1>
           <p className="text-stone-500 text-lg font-light leading-relaxed">
-            Everything you need to know about planning your bespoke balloon installation with BalloonsByAks.
+            Everything you need to know about planning your balloon installation with BalloonsByAks.
           </p>
-          <div className="w-20 h-1 bg-[#fce7f3] mt-8"></div>
+          <div className="w-20 h-1 bg-[#fce7f3] mt-8 mx-auto"></div>
         </div>
 
-        <div className="grid gap-8 max-w-4xl">
+        <div className="grid gap-8 max-w-4xl mx-auto">
           {faqs.map((faq, index) => (
             <div 
               key={index} 
@@ -53,7 +53,7 @@ const FAQ: React.FC = () => {
           ))}
         </div>
 
-        <div className="mt-24 bg-white rounded-[3rem] p-16 text-center shadow-sm border border-stone-100 max-w-4xl">
+        <div className="mt-24 bg-white rounded-[3rem] p-16 text-center shadow-sm border border-stone-100 max-w-4xl mx-auto">
           <h2 className="text-3xl font-serif text-stone-900 mb-4">Still have questions?</h2>
           <p className="text-stone-500 font-light mb-10">We're here to help you bring your vision to life.</p>
           <a 

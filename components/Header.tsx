@@ -43,7 +43,6 @@ const Header: React.FC<HeaderProps> = ({ activeSection, onNavigate }) => {
             { id: 'gallery', label: 'Gallery' },
             { id: 'builder', label: 'Arch Builder' },
             { id: 'faq', label: 'FAQ' },
-            { id: 'admin', label: 'Admin' },
           ].map((item) => (
             <button
               key={item.id}

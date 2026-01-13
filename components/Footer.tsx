@@ -80,10 +80,10 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         
         <div className="flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest text-stone-600 gap-6">
           <p>© {new Date().getFullYear()} BalloonsByAks. All rights reserved.</p>
-          <div className="flex gap-8">
+          <div className="flex gap-8 items-center">
+            <button onClick={() => handleNav('admin')} className="text-stone-800 hover:text-stone-500 transition-colors">Management Portal</button>
             <a href="#" className="hover:text-stone-300 transition-colors">Privacy</a>
             <a href="#" className="hover:text-stone-300 transition-colors">Terms</a>
-            <a href="#" className="hover:text-stone-300 transition-colors">Accessibility</a>
           </div>
         </div>
       </div>

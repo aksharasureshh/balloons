@@ -15,7 +15,7 @@ export interface Cluster {
   x: number;
   y: number;
   rotation: number;
-  size: number;
+  size: number; // Percentage of container width
 }
 
 export interface Inquiry {
@@ -30,4 +30,5 @@ export interface Inquiry {
   clusters: Cluster[];
   vinylText?: string;
   otherSpecs?: string;
+  archived?: boolean;
 }

@@ -40,7 +40,7 @@ const Gallery: React.FC = () => {
         <div className="max-w-3xl mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <h1 className="text-5xl font-serif mb-6 text-stone-900 tracking-tight">Portfolio</h1>
           <p className="text-stone-500 text-lg font-light leading-relaxed">
-            A curated showcase of our bespoke installations. Every setup is a unique reflection of our commitment to excellence and artistry.
+            A curated showcase of our balloon installations. Every setup is a unique reflection of our commitment to excellence and artistry.
           </p>
           <div className="w-20 h-1 bg-[#fce7f3] mt-8"></div>
         </div>
